@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindSpace | Authentication</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #f0f4f9;
+            --accent-color: #3f37c9;
+            --text-color: #333;
+            --light-gray: #edf2f7;
+            --medium-gray: #e2e8f0;
+            --dark-gray: #64748b;
+            --success-color: #4ade80;
+            --error-color: #ef4444;
+            --border-radius: 16px;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--secondary-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: var(--text-color);
+        }
+        
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .auth-header {
+            padding: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+        
+        .brand-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .auth-forms {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--medium-gray);
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border: none;
+            border-radius: 8px;
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+        
+        .auth-footer {
+            text-align: center;
+            padding: 0 30px 30px;
+        }
+        
+        .auth-footer a {
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+        }
+        
+        .alert {
+            margin-bottom: 1.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .alert-error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1 class="brand-title">MindSpace</h1>
+            <p class="mb-0">Your mental wellness companion</p>
+        </div>
+        
+        <div class="auth-forms">
+            <!-- Alert container -->
+            <div id="alertContainer"></div>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="mb-4">
+                <h2 class="h4 mb-4 text-center">Sign In</h2>
+                
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" class="form-control" id="loginEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="loginPassword" required>
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                    </div>
+                    <a href="#" class="text-muted small">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary mb-3" id="loginBtn">
+                    Sign In
+                </button>
+                
+                <p class="text-center text-muted mb-0">
+                    Don't have an account? 
+                    <a href="#" id="showSignup">Sign up</a>
+                </p>
+            </form>
+            
+            <!-- Signup Form (initially hidden) -->
+            <form id="signupForm" class="mb-4" style="display: none;">
+                <h2 class="h4 mb-4 text-center">Create Account</h2>
+                
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" class="form-control" id="signupName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signupEmail">Email Address</label>
+                    <input type="email" class="form-control" id="signupEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="signupPassword" required>
+                        <button class="btn btn-outline-secondary" type="button" id="toggleSignupPassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="form-text text-muted">At least 8 characters with 1 number and 1 special character</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" required>
+                </div>
+                
+                <div class="form-check mb-4">
+                    <input type="checkbox" class="form-check-input" id="termsAgreement" required>
+                    <label class="form-check-label" for="termsAgreement">
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary mb-3" id="signupBtn">
+                    Create Account
+                </button>
+                
+                <p class="text-center text-muted mb-0">
+                    Already have an account? 
+                    <a href="#" id="showLogin">Sign in</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Toggle between login and signup forms
+            $("#showSignup").click(function(e) {
+                e.preventDefault();
+                $("#loginForm").hide();
+                $("#signupForm").show();
+            });
+            
+            $("#showLogin").click(function(e) {
+                e.preventDefault();
+                $("#signupForm").hide();
+                $("#loginForm").show();
+            });
+            
+            // Toggle password visibility
+            $("#togglePassword").click(function() {
+                const passwordInput = $("#loginPassword");
+                const icon = $(this).find("i");
+                
+                if (passwordInput.attr("type") === "password") {
+                    passwordInput.attr("type", "text");
+                    icon.removeClass("fa-eye").addClass("fa-eye-slash");
+                } else {
+                    passwordInput.attr("type", "password");
+                    icon.removeClass("fa-eye-slash").addClass("fa-eye");
+                }
+            });
+            
+            $("#toggleSignupPassword").click(function() {
+                const passwordInput = $("#signupPassword");
+                const icon = $(this).find("i");
+                
+                if (passwordInput.attr("type") === "password") {
+                    passwordInput.attr("type", "text");
+                    icon.removeClass("fa-eye").addClass("fa-eye-slash");
+                } else {
+                    passwordInput.attr("type", "password");
+                    icon.removeClass("fa-eye-slash").addClass("fa-eye");
+                }
+            });
+            
+            // Show alert message
+            function showAlert(message, type) {
+                const alertHtml = `
+                    <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+                
+                $("#alertContainer").html(alertHtml);
+                
+                // Auto-dismiss after 5 seconds
+                setTimeout(() => {
+                    $(".alert").alert('close');
+                }, 5000);
+            }
+            
+            // Handle login form submission
+            $("#loginForm").submit(function(e) {
+                e.preventDefault();
+                
+                const email = $("#loginEmail").val();
+                const password = $("#loginPassword").val();
+                const rememberMe = $("#rememberMe").is(":checked");
+                
+                // Show loading state
+                const loginBtn = $("#loginBtn");
+                const loginBtnText = loginBtn.html();
+                loginBtn.html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing in...').prop('disabled', true);
+                
+                // Send login request
+                $.ajax({
+                    url: '/login',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        email: email,
+                        password: password,
+                        remember_me: rememberMe
+                    }),
+                    success: function(response) {
+                        if (response.success) {
+                            showAlert(response.message || 'Login successful!', 'success');
+                            // Redirect to main page after a short delay
+                            setTimeout(() => {
+                                window.location.href = response.redirect || '/main_page.html';
+                            }, 1000);
+                        } else {
+                            showAlert(response.message || 'Login failed. Please try again.', 'error');
+                            loginBtn.html(loginBtnText).prop('disabled', false);
+                        }
+                    },
+                    error: function(xhr) {
+                        const error = xhr.responseJSON || {};
+                        showAlert(error.message || 'An error occurred. Please try again.', 'error');
+                        loginBtn.html(loginBtnText).prop('disabled', false);
+                    }
+                });
+            });
+            
+            // Handle signup form submission
+            $("#signupForm").submit(function(e) {
+                e.preventDefault();
+                
+                const name = $("#signupName").val();
+                const email = $("#signupEmail").val();
+                const password = $("#signupPassword").val();
+                const confirmPassword = $("#confirmPassword").val();
+                
+                // Simple validation
+                if (password !== confirmPassword) {
+                    showAlert('Passwords do not match', 'error');
+                    return;
+                }
+                
+                if (password.length < 8) {
+                    showAlert('Password must be at least 8 characters long', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                const signupBtn = $("#signupBtn");
+                const signupBtnText = signupBtn.html();
+                signupBtn.html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Creating account...').prop('disabled', true);
+                
+                // Send registration request
+                $.ajax({
+                    url: '/register',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        name: name,
+                        email: email,
+                        password: password
+                    }),
+                    success: function(response) {
+                        if (response.success) {
+                            showAlert(response.message || 'Registration successful! Please check your email to verify your account.', 'success');
+                            // Redirect to login after a short delay
+                            setTimeout(() => {
+                                $("#signupForm").hide();
+                                $("#loginForm").show();
+                                $("#loginEmail").val(email);
+                                signupBtn.html(signupBtnText).prop('disabled', false);
+                            }, 2000);
+                        } else {
+                            showAlert(response.message || 'Registration failed. Please try again.', 'error');
+                            signupBtn.html(signupBtnText).prop('disabled', false);
+                        }
+                    },
+                    error: function(xhr) {
+                        const error = xhr.responseJSON || {};
+                        showAlert(error.message || 'An error occurred. Please try again.', 'error');
+                        signupBtn.html(signupBtnText).prop('disabled', false);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

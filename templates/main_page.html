@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindSpace | Professional Therapy</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #f0f4f9;
+            --accent-color: #3f37c9;
+            --text-color: #333;
+            --light-gray: #edf2f7;
+            --medium-gray: #e2e8f0;
+            --dark-gray: #64748b;
+            --success-color: #4ade80;
+            --border-radius: 16px;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--secondary-color);
+            height: 100vh;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+        
+        .chat-container {
+            max-width: 1200px;
+            height: 100vh;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            border-radius: 0;
+        }
+        
+        .chat-header {
+            padding: 20px 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .brand h1 {
+            font-size: 1.4rem;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .brand p {
+            margin: 0;
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 8px 15px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .user-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--success-color);
+            margin-left: 5px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 30px 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            background-color: white;
+        }
+        
+        .message {
+            max-width: 65%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .message-content {
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+        
+        .message-meta {
+            font-size: 0.7rem;
+            margin-top: 4px;
+            padding: 0 6px;
+            display: flex;
+            justify-content: space-between;
+            opacity: 0.8;
+        }
+        
+        .message-time {
+            font-weight: 500;
+        }
+        
+        .therapist-message {
+            align-self: flex-start;
+        }
+        
+        .therapist-message .message-content {
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            border-bottom-left-radius: 4px;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+        }
+        
+        .therapist-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: absolute;
+            bottom: 0;
+            left: -46px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-message {
+            align-self: flex-end;
+        }
+        
+        .user-message .message-content {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: 4px;
+        }
+        
+        .user-message .message-meta {
+            color: var(--dark-gray);
+            align-self: flex-end;
+        }
+        
+        .welcome-message {
+            text-align: center;
+            margin: auto;
+            padding: 30px;
+            color: var(--dark-gray);
+            font-size: 1.5rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        
+        .welcome-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .welcome-icon {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .welcome-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .welcome-desc {
+            color: var(--dark-gray);
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+        
+        .chat-input {
+            padding: 20px 30px;
+            background-color: white;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background-color: var(--light-gray);
+            border-radius: 30px;
+            padding: 5px 5px 5px 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group:focus-within {
+            background-color: white;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        
+        .form-control {
+            border: none;
+            background: transparent;
+            padding: 15px 0;
+            box-shadow: none !important;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            border: none;
+            outline: none;
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border: none;
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            margin-left: 8px;
+            box-shadow: 0 3px 10px rgba(67, 97, 238, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+        
+        .date-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            color: var(--dark-gray);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .date-divider::before,
+        .date-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: var(--medium-gray);
+            margin: 0 15px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .message {
+                max-width: 80%;
+            }
+            
+            .chat-header {
+                padding: 15px;
+            }
+            
+            .brand h1 {
+                font-size: 1.2rem;
+            }
+            
+            .brand p {
+                display: none;
+            }
+            
+            .chat-input {
+                padding: 15px;
+            }
+            
+            .therapist-avatar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="brand">
+                <div class="brand-logo">
+                    <i class="fas fa-brain" style="color: var(--primary-color);"></i>
+                </div>
+                <div>
+                    <h1>MindSpace</h1>
+                    <p>Professional Therapy</p>
+                </div>
+            </div>
+            
+            <div class="user-info dropdown" id="userDropdown">
+                <div class="d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                    <div class="user-avatar me-2">
+                        JD
+                    </div>
+                    <div class="user-name">
+                        John Doe
+                        <span class="status-indicator"></span>
+                    </div>
+                    <i class="fas fa-chevron-down ms-2" style="font-size: 0.8rem;"></i>
+                </div>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be displayed here -->
+            <div class="welcome-message" id="welcomeMessage">
+                <div class="welcome-card">
+                    <div class="welcome-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="welcome-title">Welcome, <span class="username">John</span></div>
+                    <div class="welcome-desc">
+                        This is a safe space to share your thoughts. I'm here to listen and help.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input">
+            <div class="input-group">
+                <input type="text" class="form-control" id="messageInput" placeholder="Type your message here..." autocomplete="off">
+                <button class="send-btn" id="sendMessage">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Global variables
+        let isTyping = false;
+        
+        $(document).ready(function() {
+            // Load user's messages when page loads
+            loadMessages();
+            
+            // Update user info in the header
+            updateUserInfo();
+            
+            // Initialize Bootstrap dropdown
+            const dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+            const dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+                return new bootstrap.Dropdown(dropdownToggleEl);
+            });
+            
+            // Handle logout
+            $("#logoutBtn").click(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/logout',
+                    method: 'POST',
+                    success: function() {
+                        window.location.href = '/auth';
+                    },
+                    error: function() {
+                        window.location.href = '/auth';
+                    }
+                });
+            });
+            
+            // Format date and time
+            function formatDateTime(date) {
+                if (!(date instanceof Date) || isNaN(date)) {
+                    date = new Date();
+                }
+                
+                const options = {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                };
+                
+                return date.toLocaleTimeString('en-US', options);
+            }
+            
+            // Function to add a message to the chat
+            function addMessage(message, isFromUser, timestamp) {
+                const messageClass = isFromUser ? 'user-message' : 'therapist-message';
+                const messageTime = timestamp ? formatDateTime(new Date(timestamp)) : formatDateTime(new Date());
+                
+                const messageHtml = `
+                    <div class="message ${messageClass}">
+                        ${!isFromUser ? '<div class="therapist-avatar">T</div>' : ''}
+                        <div class="message-content">
+                            ${message.replace(/\n/g, '<br>')}
+                        </div>
+                        <div class="message-meta">
+                            <span class="message-time">${messageTime}</span>
+                        </div>
+                    </div>
+                `;
+                
+                $(".chat-messages").append(messageHtml);
+                scrollToBottom();
+            }
+            
+            // Function to show typing indicator
+            function showTypingIndicator() {
+                isTyping = true;
+                const typingIndicatorHtml = `
+                    <div class="typing-indicator">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <span class="typing-text">Sophia is typing</span>
+                </div>
+                `;
+                $(".chat-messages").append(typingIndicatorHtml);
+                scrollToBottom();
+            }
+            
+            // Function to hide typing indicator with fade out effect
+            function hideTypingIndicator() {
+                $(".typing-indicator").fadeOut(300, function() {
+                    $(this).remove();
+                });
+            }
+            
+            // Function to scroll to bottom of chat
+            function scrollToBottom() {
+                const chatMessages = $(".chat-messages")[0];
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Function to get AI response (kept for backward compatibility)
+            function getAIResponse(userMessage) {
+                console.warn('getAIResponse is deprecated. Use sendUserMessage instead.');
+                sendUserMessage(userMessage);
+            }
+            
+            // Handle send button click
+            $("#sendMessage").click(function() {
+                sendUserMessage();
+            });
+            
+            // Handle Enter key in message input
+            $("#messageInput").keypress(function(e) {
+                if (e.which === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    sendUserMessage();
+                }
+            });
+            
+            // Function to send user message and get AI response
+            function sendUserMessage(userMessage) {
+                const message = userMessage || $("#messageInput").val().trim();
+                
+                if (message === '') {
+                    return;
+                }
+                
+                // Add user message to chat if not already added
+                if (!userMessage) {
+                    addMessage(message, true);
+                    // Clear input
+                    $("#messageInput").val('');
+                }
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Save user message to server
+                saveMessage(message, true);
+                
+                // Get AI response
+                $.ajax({
+                    url: '/api/ai/response',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        message: message
+                    }),
+                    success: function(response) {
+                        // Remove typing indicator
+                        hideTypingIndicator();
+                        
+                        if (response && response.success) {
+                            // Add AI response to chat
+                            addMessage(response.message, false);
+                            
+                            // Save AI response to server
+                            saveMessage(response.message, false);
+                        } else {
+                            const errorMsg = response && response.message || 'Unknown error occurred';
+                            console.error('Error getting AI response:', errorMsg);
+                            addMessage("I'm sorry, I'm having trouble processing your message. Please try again.", false);
+                        }
+                    },
+                    error: function(xhr) {
+                        // Remove typing indicator
+                        hideTypingIndicator();
+                        
+                        console.error('Error getting AI response:', xhr.responseText);
+                        addMessage("I'm having trouble connecting to the server. Please check your internet connection and try again.", false);
+                    }
+                });
+            }
+            
+            // Function to save message to server
+            function saveMessage(message, isFromUser) {
+                $.ajax({
+                    url: '/api/messages',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        message: message,
+                        is_from_user: isFromUser
+                    }),
+                    success: function(response) {
+                        if (!response.success) {
+                            console.error('Failed to save message:', response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error saving message:', xhr.responseText);
+                    }
+                });
+            }
+            
+            // Function to load user's messages
+            function loadMessages() {
+                $.ajax({
+                    url: '/api/messages',
+                    method: 'GET',
+                    success: function(response) {
+                        // Clear existing messages
+                        $(".chat-messages").empty();
+                        
+                        // Add welcome message if no messages
+                        if (!response || response.length === 0) {
+                            $(".chat-messages").html(`
+                                <div class="welcome-message" id="welcomeMessage">
+                                    <div class="welcome-card">
+                                        <div class="welcome-icon">
+                                            <i class="fas fa-comments"></i>
+                                        </div>
+                                        <div class="welcome-title">Welcome, <span class="username">${$('.user-name').text().split('@')[0]}</span></div>
+                                        <div class="welcome-desc">
+                                            This is a safe space to share your thoughts. I'm here to listen and help.
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                        } else {
+                            // Add each message to the chat
+                            response.forEach(function(msg) {
+                                addMessage(msg.message, msg.is_from_user, msg.timestamp);
+                            });
+                        }
+                        
+                        // Scroll to bottom
+                        scrollToBottom();
+                    },
+                    error: function(xhr) {
+                        console.error('Error loading messages:', xhr.responseText);
+                        // Show error message to user
+                        addMessage("Sorry, I couldn't load the chat history. Please try refreshing the page.", false);
+                    }
+                });
+            }
+            
+            // Function to update user info in the header
+            function updateUserInfo() {
+                const email = "{{ email }}";
+                if (email) {
+                    const name = email.split('@')[0];
+                    $(".user-name").text(name);
+                    $(".user-avatar").text(name.charAt(0).toUpperCase());
+                }
+            }
+            
+            // Add CSS for typing indicator
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .typing-indicator {
+                    display: flex;
+                    align-items: center;
+                    background-color: var(--light-gray);
+                    padding: 12px 18px;
+                    border-radius: 24px;
+                    width: fit-content;
+                    margin: 12px 0;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                    opacity: 0;
+                    transform: translateY(10px);
+                    animation: fadeInUp 0.3s ease-out forwards;
+                }
+                
+                .typing-indicator .dot {
+                    display: inline-block;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background-color: var(--primary-color);
+                    margin: 0 2px;
+                    animation: bounce 1.4s infinite ease-in-out both;
+                }
+                
+                .typing-indicator .dot:nth-child(1) {
+                    animation-delay: -0.32s;
+                }
+                
+                .typing-indicator .dot:nth-child(2) {
+                    animation-delay: -0.16s;
+                }
+                
+                .typing-indicator .dot:nth-child(3) {
+                    margin-right: 8px;
+                }
+                
+                .typing-indicator .typing-text {
+                    font-size: 0.85rem;
+                    color: var(--dark-gray);
+                    font-weight: 500;
+                }
+                
+                @keyframes bounce {
+                    0%, 80%, 100% { 
+                        transform: scale(0);
+                        opacity: 0.5;
+                    } 
+                    40% { 
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                }
+                
+                @keyframes fadeInUp {
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }`;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
