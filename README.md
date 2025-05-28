@@ -1,4 +1,4 @@
-![Therapy Chat Banner](screenshots/banner.png)
+![Therapy Chat Banner](logo.png)
 
 # Therapy Chat - AI-Powered Mental Health Support
 
