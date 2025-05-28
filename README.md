@@ -14,10 +14,7 @@ Therapy Chat is a web-based application that provides AI-powered mental health s
 - **Conversation History**: View and revisit previous conversations
 - **Privacy-Focused**: Secure storage of user data and conversations
 
-> **Note**: To add images:
-> 1. Create a `screenshots` directory in your project root
-> 2. Add your images (e.g., `banner.png` and `chat-interface.png`)
-> 3. Update the image paths in the markdown if your filenames are different
+
 
 ## Tech Stack
 
