@@ -80,9 +80,9 @@ Therapy Chat is a web-based application that provides AI-powered mental health s
 
 ## Screenshots
 
-| Login Page | Chat Interface |
-|------------|----------------|
-| ![Login Page](screenshots/login.png) | ![Chat Demo](screenshots/chat-demo.png) |
+Login Page 
+
+![Login Page](login.png)
 
 ## Contributing
 
