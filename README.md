@@ -6,7 +6,7 @@ Therapy Chat is a web-based application that provides AI-powered mental health s
 
 ## Features
 
-![Chat Interface](screenshots/chat-interface.png)
+![Chat Interface](chat_interface.png)
 
 - **User Authentication**: Secure sign-up and login system
 - **AI-Powered Chat**: Intelligent conversation with context-aware responses
